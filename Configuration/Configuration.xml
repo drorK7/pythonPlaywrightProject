@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Environment>
+    <!-- TimeOut -->
+    <TimeOut>10</TimeOut>
+    <Sleep>5000</Sleep>
+
+    <PlatformName>web</PlatformName>
+
+    <!-- Web -->
+    <BrowserName>Edge</BrowserName>
+    <url>http://192.168.1.49:3000/</url>
+    <ImageRepo>./ImageRepository/</ImageRepo>
+    <SearchPhrase>React App</SearchPhrase>
+
+    <!-- API -->
+    <Base_api_url>https://api.webz.io</Base_api_url>
+    <api_token>01a2ca30-a4d7-47cc-beaa-b9f321cae01e</api_token>
+    <Endpoint1>reviewFilter</Endpoint1>
+    <Endpoint2>filterWebContent</Endpoint2>
+    <query1>((hotel OR room)AND(cockroach OR ant))</query1>
+    <query2>("stock market" OR NASDAQ)</query2>
+    <filePath>./jSon/</filePath>
+
+</Environment>
