@@ -3,7 +3,7 @@ from playwright.sync_api import Page, BrowserContext
 from PageObjects import MainPage
 
 
-class base:
+class project_base:
     driver: Page = None
     wait = None
     action = None
@@ -25,10 +25,10 @@ class base:
         with sync_playwright() as p:
             browser = p.chromium.launch()
             context = browser.new_context()
-            base.driver = context.new_page()
+            project_base.driver = context.new_page()
 
     @staticmethod
     def close_playwright():
-        if base.driver:
-            base.driver.context().close()
-            base.driver = None
+        if project_base.driver:
+            project_base.driver.context().close()
+            project_base.driver = None

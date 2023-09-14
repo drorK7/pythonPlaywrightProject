@@ -3,11 +3,12 @@ from Utilities.CommonOperations import CommonOperations
 from WorkFlows.ReactAppWebFlow import ReactAppWebFlows
 from playwright.sync_api import sync_playwright, Page
 
-@CommonOperations.setup_class
+
 class TestReactWebApp(CommonOperations):
     def __init__(self, page: Page):
         self.page = page
         self.common_operations = CommonOperations()  # Create an instance of CommonOperations
+
     @pytest.mark.parametrize("search_phrase")
     def test_application_loaded_successfully(self, search_phrase):
         ReactAppWebFlows.test_application_loads_successfully(self.common_operations.get_data(search_phrase))

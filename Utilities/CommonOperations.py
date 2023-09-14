@@ -1,13 +1,13 @@
 import pytest
 import os
-from Utilities import base
+from Utilities.project_base import project_base
 from playwright.sync_api import sync_playwright
 from playwright.sync_api import Page, BrowserContext
 from requests import Session
 from xml.etree import ElementTree as et
 
 
-class CommonOperations(base):
+class CommonOperations(project_base):
     # Read XML Function
     @staticmethod
     def get_data(node_name):
@@ -23,35 +23,35 @@ class CommonOperations(base):
     @staticmethod
     def init_browser(browser_type):
         if browser_type.lower() == "chrome":
-            base.driver = CommonOperations.init_chrome_driver()
+            project_base.driver = CommonOperations.init_chrome_driver()
         elif browser_type.lower() == "firefox":
-            base.driver = CommonOperations.init_ff_driver()
+            project_base.driver = CommonOperations.init_ff_driver()
         elif browser_type.lower() == "edge":
-            base.driver = CommonOperations.init_edge_driver()
+            project_base.driver = CommonOperations.init_edge_driver()
         else:
             raise RuntimeError("Invalid browser name")
 
-        base.driver.context().new_page()
-        base.driver.context().clear_cookies()
-        base.driver.goto(CommonOperations.get_data("url"))
+        project_base.driver.context().new_page()
+        project_base.driver.context().clear_cookies()
+        project_base.driver.goto(CommonOperations.get_data("url"))
 
     # Initializing Google Chrome browser
     @staticmethod
     def init_chrome_driver():
         CommonOperations.initialize_playwright()
-        return base.driver
+        return project_base.driver
 
     # Initializing FireFox browser
     @staticmethod
     def init_ff_driver():
         CommonOperations.initialize_playwright()
-        return base.driver
+        return project_base.driver
 
     # Initializing Edge browser
     @staticmethod
     def init_edge_driver():
         CommonOperations.initialize_playwright()
-        return base.driver
+        return project_base.driver
 
     # Get the selected testing platform and initializing the corresponding function
     @pytest.fixture(scope="class", autouse=True)
@@ -67,7 +67,7 @@ class CommonOperations(base):
     @pytest.fixture(autouse=True)
     def after_method(self):
         if CommonOperations.get_data("PlatformName").lower() == "web":
-            base.driver.reload()
+            project_base.driver.reload()
 
     # Closing the session
     @pytest.fixture(scope="class", autouse=True)

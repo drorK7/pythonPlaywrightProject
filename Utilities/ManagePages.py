@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, BrowserContext
 
 import PageObjects
-from .base import Base  # Import your Base class from the Utilities package
+from .project_base import Base  # Import your Base class from the Utilities package
 
 class ManagePages(Base):
     @staticmethod
