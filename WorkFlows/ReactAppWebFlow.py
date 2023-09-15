@@ -8,7 +8,7 @@ from Extensions.Verifications import Verifications
 from Utilities.CommonOperations import CommonOperations
 
 
-class ReactAppWebFlows(CommonOperations):
+class TestReactAppWebFlows(CommonOperations):
 
     @pytest.mark.parametrize("pageTitle", ["Page Title 1", "Page Title 2"])
     def test_application_loads_successfully(self, pageTitle):

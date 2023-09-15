@@ -25,10 +25,10 @@ class ProjectBase:
         with sync_playwright() as p:
             browser = p.chromium.launch()
             context = browser.new_context()
-            project_base.driver = context.new_page()
+            ProjectBase.driver = context.new_page()
 
     @staticmethod
     def close_playwright():
-        if project_base.driver:
-            project_base.driver.context().close()
-            project_base.driver = None
+        if ProjectBase.driver:
+            ProjectBase.driver.context().close()
+            ProjectBase.driver = None
