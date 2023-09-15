@@ -3,7 +3,7 @@ from playwright.sync_api import Page, BrowserContext
 from PageObjects import MainPage
 
 
-class project_base:
+class ProjectBase:
     driver: Page = None
     wait = None
     action = None
