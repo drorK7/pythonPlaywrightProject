@@ -1,6 +1,6 @@
 # extensions/Verifications.py
 
-from PageObjects.Locators.MainPage import MainPage
+from PageObjects.MainPage import MainPage
 from playwright.sync_api import Page
 
 
