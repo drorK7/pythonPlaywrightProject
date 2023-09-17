@@ -2,7 +2,7 @@
 import pytest
 from playwright.sync_api import sync_playwright
 from Utilities.CommonOperations import CommonOperations
-from Configuration.Configuration import URL
+from Configuration.config import URL
 from Extensions.UiActions import UiActions
 from Utilities.CommonOps import browser
 

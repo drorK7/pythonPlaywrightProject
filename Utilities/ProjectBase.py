@@ -1,6 +1,6 @@
 from playwright.sync_api import sync_playwright
 from playwright.sync_api import Page, BrowserContext
-from PageObjects import MainPage
+from PageObjects.Locators import MainPage
 
 
 class ProjectBase:

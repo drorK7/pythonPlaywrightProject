@@ -3,7 +3,7 @@
 import pytest
 from playwright.sync_api import sync_playwright
 from Utilities.CommonOps import browser
-from Configuration.Configuration import URL
+from Configuration.config import URL
 
 
 def test_add_new_member(browser):

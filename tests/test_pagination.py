@@ -2,10 +2,10 @@
 
 import pytest
 from playwright.sync_api import sync_playwright
-from Configuration.Configuration import URL
+from Configuration.config import URL
 from Utilities.CommonOps import browser
 from Extensions.Verifications import Verifications
-from PageObjects.MainPage import MainPage
+from PageObjects.Locators.MainPage import MainPage
 from Utilities.CommonOps import browser, page  # Import fixtures from CommonOps module
 from Utilities.Listeners import Listeners
 

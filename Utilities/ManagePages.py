@@ -1,10 +1,10 @@
 from playwright.sync_api import Page, BrowserContext
 
-import PageObjects
+import PageObjects.Locators as Locators
 from .ProjectBase import ProjectBase  # Import your Base class from the Utilities package
 
 
 class ManagePages(ProjectBase):
     @staticmethod
     def init():
-        ProjectBase.mainPage = PageObjects.mainPage(ProjectBase.driver)
+        ProjectBase.mainPage = Locators.mainPage(ProjectBase.driver)

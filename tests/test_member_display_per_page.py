@@ -1,7 +1,7 @@
 # tests/test_member_display_per_page.py
 
 import pytest
-from Configuration.Configuration import URL
+from Configuration.config import URL
 from PageObjects.MainPage import MainPage
 from Utilities.CommonOps import browser, page  # Import fixtures from CommonOps module
 
