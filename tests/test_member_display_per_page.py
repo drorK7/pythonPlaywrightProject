@@ -1,28 +1,25 @@
 # tests/test_member_display_per_page.py
 
 import pytest
-from playwright.sync_api import sync_playwright
+from Configuration.Configuration import URL
+from PageObjects.MainPage import MainPage
+from Utilities.CommonOps import browser, page  # Import fixtures from CommonOps module
 
-@pytest.fixture(scope="module")
-def browser():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        yield browser
-        browser.close()
 
-def test_members_display_per_page(browser):
-    page = browser.new_page()
-    page.goto("http://192.168.1.49:3000/")
+@pytest.fixture
+def setup(browser, page):
+    main_page = MainPage(page)
+    page.goto(URL)
+    yield main_page
+    page.close()
 
-    member_item_selector = "tr[class='MuiTableRow-root css-1gqug66']"
 
+def test_members_display_per_page(setup, page):
+    main_page = setup
     # Wait for the member items to load
-    page.wait_for_selector(member_item_selector, timeout=5000)
+    page.wait_for_selector(main_page.members_items, timeout=5000)
 
     # Count the number of displayed member items on the page
-    member_items = page.query_selector_all(member_item_selector)
-    num_member_items = len(member_items)
-
-    assert num_member_items == 10, f"Expected 10 members per page, but found {num_member_items}."
-
-    page.close()
+    member_elements = page.query_selector_all(main_page.members_items)
+    num_of_members = len(member_elements)
+    assert num_of_members == 10, f"Expected 10 members per page, but found {num_of_members}."

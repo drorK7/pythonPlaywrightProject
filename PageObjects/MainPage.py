@@ -2,20 +2,24 @@ from playwright.sync_api import Page, Locator
 
 
 class MainPage:
-    def __init__(self, page: Page):
+    def __init__(self, page):
         self.page = page
 
     @property
-    def search_txt_box(self) -> Locator:
-        return self.page.locator('input[name="q"]')
+    def next_page_button(self) -> Locator:
+        return self.page.locator("svg[data-testid='ArrowRightIcon']")
 
     @property
-    def search_form(self) -> Locator:
-        return self.page.locator('#searchform')
+    def back_page_button(self) -> Locator:
+        return self.page.locator("svg[data-testid='ArrowLeftIcon']")
 
     @property
-    def search_results(self) -> Locator:
-        return self.page.locator('//*[contains(@class, "TzHB6b cLjAic K7khPe")]')
+    def page_number_input(self) -> Locator:
+        return self.page.locator("input[class='MuiInputBase-input MuiInput-input css-mnn31'][value]")
+
+    @property
+    def members_items(self) -> Locator:
+        return self.page.locator("tr[class='MuiTableRow-root css-1gqug66']")
 
     @property
     def results_count(self) -> Locator:
@@ -25,10 +29,4 @@ class MainPage:
     def search_time(self) -> Locator:
         return self.page.locator('//*[contains(@id, "result-stats")]/nobr')
 
-    @property
-    def search_query_field(self) -> Locator:
-        return self.page.locator('input[name="q"]')
 
-    @property
-    def icon_google(self) -> Locator:
-        return self.page.locator('img[src="/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"]')

@@ -2,17 +2,13 @@
 
 import pytest
 from playwright.sync_api import sync_playwright
+from Utilities.CommonOps import browser
+from Configuration.Configuration import URL
 
-@pytest.fixture(scope="module")
-def browser():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        yield browser
-        browser.close()
 
 def test_add_new_member(browser):
     page = browser.new_page()
-    page.goto("http://192.168.1.49:3000/")
+    page.goto(URL)
 
     add_member_button_selector = "svg[data-testid='PersonAddIcon']"
     name_input_selector = "(//input['MuiOutlinedInput-notchedOutline css-igs3ac'])[2]"

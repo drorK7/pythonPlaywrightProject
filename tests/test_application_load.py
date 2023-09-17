@@ -1,19 +1,16 @@
 # tests/test_application_load.py
-import os
 import pytest
 from playwright.sync_api import sync_playwright
+from Utilities.CommonOperations import CommonOperations
+from Configuration.Configuration import URL
+from Extensions.UiActions import UiActions
+from Utilities.CommonOps import browser
 
 
-@pytest.fixture(scope="module")
-def browser():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        yield browser
-        browser.close()
-
-
-def test_application_loads_successfully(browser):
+@pytest.mark.parametrize("page_title", ["React App"])
+def test_application_loads_successfully(page_title, browser):
     page = browser.new_page()
-    page.goto("http://192.168.1.49:3000/")
-    assert page.title() == "React App"
+    page.goto(URL)
+    ui_actions = UiActions(page)
+    assert ui_actions.get_page_title() == page_title, "Application failed to load"
     page.close()

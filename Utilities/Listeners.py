@@ -1,60 +1,61 @@
 import os
-
 import pytest
-import ProjectBase
-import CommonOperations
-from pytest import fixture
-from pytest import request
-from playwright.sync_api import Page, BrowserContext
+from playwright.sync_api import sync_playwright
+from playwright.sync_api import Page
 from io import BytesIO
 from xml.etree import ElementTree as et
 
 
-class Listeners(CommonOperations):
-    @staticmethod
-    def on_finish(test):
-        print("------------------- Test " + test.name + " Completed! -------------------")
+class Listeners:
+    def __init__(self):
+        self.screenshot_dir = os.path.join(os.getcwd(), "screenshots")
 
-    @staticmethod
-    def on_start(test):
-        print("------------------- Test " + test.name + " is Starting! -------------------")
+    @pytest.fixture(scope="module", params=["chromium", "firefox", "webkit"])
+    def browser(self, request):
+        with sync_playwright() as p:
+            browser_type = request.param
+            browser = getattr(p, browser_type).launch(headless=False)
+            yield browser
+            browser.close()
 
-    @staticmethod
-    def on_test_failure(test):
-        print("------------------- The test " + test.name + " has failed! -------------------")
-        if not CommonOperations.get_data("PlatformName").lower() == "api":
-            Listeners.save_screenshot()
+    @pytest.fixture(scope="function")
+    def page(self, browser):
+        page = browser.new_page()
+        yield page
+        page.close()
 
-    @staticmethod
-    def on_test_skipped(test):
-        print("------------------- Test " + test.name + " is Skipping! -------------------")
+    @pytest.fixture(scope="function", autouse=True)
+    def screenshot_on_failure(self, request, page):
+        def on_failure():
+            screenshot = page.screenshot()
+            screenshot_path = os.path.join(self.screenshot_dir, f"{request.node.name}.png")
+            screenshot.save_as(screenshot_path)
 
-    @staticmethod
-    def on_test_start(test):
-        print("------------------- Test " + test.name + " successfully started! -------------------")
+        request.addfinalizer(on_failure)
 
-    @staticmethod
-    def on_test_success(test):
-        print("------------------- Test successfully completed! -------------------")
-
-    @staticmethod
-    def save_screenshot(test):
-        screenshot = test.driver.screenshot()
-        screenshot_path = os.path.join("screenshots", f"{test.name}.png")
-        screenshot.save_as(screenshot_path)
-
-    @fixture(scope="function", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_listener(self, request):
-        request.node._testcase.instance = self
-        request.addfinalizer(self.on_finish(request.node))
+        print("------------------- Test " + request.node.name + " is Starting! -------------------")
+
+        def on_finish():
+            print("------------------- Test " + request.node.name + " Completed! -------------------")
+
+        request.addfinalizer(on_finish)
+
+        request.node._testcase.instance = self  # Attach the Listeners instance to the instance
         return self
 
-    @staticmethod
-    def get_data(node_name):
+    def get_data(self, node_name):
         config_file = os.path.join(".", "Configuration", "Configuration.xml")
         try:
             tree = et.parse(config_file)
             root = tree.getroot()
             return root.find(node_name).text
         except Exception as e:
-            print("Exception in reading XML file:", e)
+            print("Exception in reading config file:", e)
+
+    # Define an on_finish method for cleanup
+    def on_finish(self):
+        print("------------------- Tests Completed! Cleaning up... -------------------")
+        # Perform any cleanup tasks here, if needed
+

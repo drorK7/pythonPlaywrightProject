@@ -13,7 +13,7 @@ class ProjectBase:
     ImageChops = None
 
     Platform = None
-    mainPage = None  # You can replace this with the appropriate Python class for Google login
+    mainPage = None
 
     httpRequest = None
     response = None

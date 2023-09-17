@@ -39,8 +39,6 @@ class CommonOperations(ProjectBase):
         CommonOperations.driver.context().clear_cookies()
         CommonOperations.driver.goto(CommonOperations.get_data("url"))
 
-    # ... Other methods
-
     @pytest.fixture(scope="class", autouse=True)
     def start_session(self):
         platform_name = CommonOperations.get_data("PlatformName")
@@ -60,3 +58,27 @@ class CommonOperations(ProjectBase):
     def close_session(self):
         if CommonOperations.get_data("PlatformName").lower() != "api":
             CommonOperations.close_playwright()
+
+    @classmethod
+    def init_chrome_driver(cls):
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=False)
+            yield browser
+            browser.close()
+        pass
+
+    @classmethod
+    def init_ff_driver(cls):
+        with sync_playwright() as p:
+            browser = p.firefox.launch(headless=False)
+            yield browser
+            browser.close()
+        pass
+
+    @classmethod
+    def init_edge_driver(cls):
+        with sync_playwright() as p:
+            browser = p.chromium.launch(channel="msedge", headless=False)
+            yield browser
+            browser.close()
+        pass
